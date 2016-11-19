@@ -1,0 +1,27 @@
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# generated files
+bin/
+gen/
+out/
+build/
+.gradle/
+
+# Local configuration file (sdk path, etc)
+local.properties
+keystore.properties
+.project
+.settings/
+.DS_Store
+.classpath
+
+# Idea non-crucial project files
+*.iws
+.idea/
+*.iml
+*.hprof
+/design/

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="info_container_paddingTop">8dp</dimen>
+    <dimen name="description_container_padding">16dp</dimen>
+    <dimen name="city_name_textSize">40sp</dimen>
+</resources>
