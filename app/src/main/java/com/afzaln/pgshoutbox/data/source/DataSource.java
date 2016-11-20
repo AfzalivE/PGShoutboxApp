@@ -1,14 +1,17 @@
 package com.afzaln.pgshoutbox.data.source;
 
-import com.afzaln.pgshoutbox.data.models.Post;
+import com.afzaln.pgshoutbox.data.models.ShoutboxData;
 
-import java.util.List;
-
+import okhttp3.ResponseBody;
 import rx.Observable;
 
 /**
  * Created by afzal on 2016-11-19.
  */
 public interface DataSource {
-    Observable<List<Post>> getPosts();
+    Observable<ResponseBody> login(String username, String password);
+
+    Observable<ShoutboxData> postMessage(String message);
+
+    Observable<ShoutboxData> getMessages();
 }

@@ -3,12 +3,10 @@ package com.afzaln.pgshoutbox.data.source.local;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.afzaln.pgshoutbox.data.models.Post;
+import com.afzaln.pgshoutbox.data.models.ShoutboxData;
 import com.afzaln.pgshoutbox.data.source.DataSource;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import okhttp3.ResponseBody;
 import rx.Observable;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -18,29 +16,43 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class LocalDataSource implements DataSource {
     private static LocalDataSource INSTANCE = null;
-    private List<Post> posts;
 
     private LocalDataSource(@NonNull Context context)  {
         checkNotNull(context);
 
         // initialize database here ...
-        posts = new ArrayList<>();
-        posts.add(Post.from(1, 1, "Title1", "Body1"));
-        posts.add(Post.from(2, 2, "Title2", "Body2"));
-    }
-
-    @Override
-    public Observable<List<Post>> getPosts() {
-        return Observable.just(posts);
     }
 
     /**
-     * Write newly fetched posts to database
-     * @param posts
+     * Not called locally
+     *
+     * @param username
+     * @param password
+     * @return
      */
-    public void updatePosts(List<Post> posts) {
-        this.posts = posts;
+    @Override
+    public Observable<ResponseBody> login(String username, String password) {
+        return null;
     }
+
+    @Override
+    public Observable<ShoutboxData> postMessage(String message) {
+
+        return null;
+    }
+
+    @Override
+    public Observable<ShoutboxData> getMessages() {
+        return null;
+    }
+
+//    /**
+//     * Write newly fetched posts to database
+//     * @param posts
+//     */
+//    public void updatePosts(List<Post> posts) {
+//        this.posts = posts;
+//    }
 
     /**
      * Returns the single instance from this class, creating it if necessary.

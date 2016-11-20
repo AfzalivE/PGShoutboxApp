@@ -9,11 +9,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.afzaln.pgshoutbox.R;
-import com.afzaln.pgshoutbox.data.models.Post;
+import com.afzaln.pgshoutbox.data.models.ShoutboxData;
 import com.afzaln.pgshoutbox.util.BaseFragment;
 import com.afzaln.pgshoutbox.util.PresenterFactory;
-
-import java.util.List;
 
 import butterknife.BindView;
 
@@ -62,8 +60,8 @@ public class PostListFragment extends BaseFragment<PostListPresenter, PostListCo
     }
 
     @Override
-    public void showPosts(List<Post> posts) {
-        postAdapter.setPosts(posts);
+    public void showMessages(ShoutboxData shoutboxData) {
+        postAdapter.setMessages(shoutboxData.shouts);
     }
 
     @Override

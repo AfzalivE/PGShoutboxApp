@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.afzaln.pgshoutbox.R;
-import com.afzaln.pgshoutbox.data.models.Post;
+import com.afzaln.pgshoutbox.data.models.Shout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +19,11 @@ import butterknife.ButterKnife;
  * A custom adapter to use with RecyclerView.
  */
 class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostVH> {
-    private List<Post> posts;
+    private List<Shout> messages;
     private final PostClickListener itemClickListener;
 
     PostAdapter(PostClickListener itemClickListener) {
-        posts = new ArrayList<>();
+        messages = new ArrayList<>();
         this.itemClickListener = itemClickListener;
     }
 
@@ -35,22 +35,22 @@ class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostVH> {
 
     @Override
     public void onBindViewHolder(PostVH holder, int position) {
-        holder.bind(posts.get(position));
+        holder.bind(messages.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return posts.size();
+        return messages.size();
     }
 
-    void setPosts(List<Post> posts) {
-        this.posts = posts;
+    void setMessages(List<Shout> messages) {
+        this.messages = messages;
         notifyDataSetChanged();
     }
 
     static class PostVH extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final PostClickListener itemClickListener;
-        private Post post;
+        private Shout shout;
 
         @BindView(R.id.title)
         TextView titleV;
@@ -65,15 +65,15 @@ class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostVH> {
             ButterKnife.bind(this, itemView);
         }
 
-        void bind(Post post) {
-            this.post = post;
-            titleV.setText(post.title);
-            subtitleV.setText(post.body);
+        void bind(Shout shout) {
+            this.shout = shout;
+            titleV.setText(shout.jsusername);
+            subtitleV.setText(shout.message);
         }
 
         @Override
         public void onClick(View v) {
-            itemClickListener.onClick(post.id);
+//            itemClickListener.onClick(post.id);
         }
     }
 }

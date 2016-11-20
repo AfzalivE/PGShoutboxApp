@@ -2,13 +2,12 @@ package com.afzaln.pgshoutbox.data.source;
 
 import android.support.annotation.NonNull;
 
-import com.afzaln.pgshoutbox.data.models.Post;
+import com.afzaln.pgshoutbox.data.models.ShoutboxData;
 import com.afzaln.pgshoutbox.data.source.local.LocalDataSource;
 import com.afzaln.pgshoutbox.data.source.preference.PreferenceProvider;
 import com.afzaln.pgshoutbox.data.source.remote.RemoteDataSource;
 
-import java.util.List;
-
+import okhttp3.ResponseBody;
 import rx.Observable;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -29,19 +28,27 @@ public class DataRepository implements DataSource {
     }
 
     @Override
-    public Observable<List<Post>> getPosts() {
-        return remoteDataSource
-                .getPosts()
-                .compose(saveLocalPosts());
+    public Observable<ResponseBody> login(String username, String password) {
+        return remoteDataSource.login(username, password);
     }
 
-    private Observable.Transformer<List<Post>, List<Post>> saveLocalPosts() {
-        return posts -> posts.doOnNext(this::saveLocalPosts);
+    @Override
+    public Observable<ShoutboxData> postMessage(String message) {
+        return remoteDataSource.postMessage(message);
     }
 
-    private void saveLocalPosts(List<Post> posts) {
-        localDataSource.updatePosts(posts);
+    @Override
+    public Observable<ShoutboxData> getMessages() {
+        return remoteDataSource.getMessages();
     }
+
+//    private Observable.Transformer<List<Post>, List<Post>> saveLocalPosts() {
+//        return posts -> posts.doOnNext(this::saveLocalPosts);
+//    }
+
+//    private void saveLocalPosts(List<Post> posts) {
+//        localDataSource.updatePosts(posts);
+//    }
 
     /**
      * Returns the single instance from this class, creating it if necessary.

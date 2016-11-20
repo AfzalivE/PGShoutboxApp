@@ -2,16 +2,12 @@ package com.afzaln.pgshoutbox.postlist;
 
 import android.support.annotation.NonNull;
 
-import com.afzaln.pgshoutbox.data.models.Post;
+import com.afzaln.pgshoutbox.data.models.ShoutboxData;
 import com.afzaln.pgshoutbox.data.source.DataRepository;
 import com.afzaln.pgshoutbox.postlist.PostListContract.View;
 import com.afzaln.pgshoutbox.util.BasePresenter;
 
-import java.util.List;
-
 import rx.Observer;
-
-import static com.afzaln.pgshoutbox.util.RxUtils.applySchedulers;
 
 /**
  * Created by afzal on 2016-11-19.
@@ -26,16 +22,25 @@ class PostListPresenter implements BasePresenter<View> {
 
     void loadPosts() {
         showProgressBar(true);
-        dataRepository.getPosts()
-                .compose(applySchedulers())
+//        dataRepository.login(username, password);
+        dataRepository.getMessages()
+                .subscribe(updateViewObserver);
+
+//        dataRepository.getPosts()
+//                .compose(applySchedulers())
+//                .subscribe(updateViewObserver);
+    }
+
+    void postMessage(String message) {
+        dataRepository.postMessage(message)
                 .subscribe(updateViewObserver);
     }
 
     // internal methods
 
-    private void showPosts(List<Post> posts) {
+    private void showMessages(ShoutboxData shoutboxData) {
         if (view != null) {
-            view.showPosts(posts);
+            view.showMessages(shoutboxData);
         }
     }
 
@@ -55,7 +60,7 @@ class PostListPresenter implements BasePresenter<View> {
     /**
      * The observer that updates the view based on the view state, or shows an error
      */
-    private Observer<List<Post>> updateViewObserver = new Observer<List<Post>>() {
+    private Observer<ShoutboxData> updateViewObserver = new Observer<ShoutboxData>() {
         @Override
         public void onCompleted() {
             // onCompleted
@@ -69,9 +74,9 @@ class PostListPresenter implements BasePresenter<View> {
         }
 
         @Override
-        public void onNext(List<Post> posts) {
+        public void onNext(ShoutboxData shoutboxData) {
             // onNext
-            showPosts(posts);
+            showMessages(shoutboxData);
             showProgressBar(false);
         }
     };
