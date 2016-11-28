@@ -22,9 +22,12 @@ class PostListPresenter implements BasePresenter<View> {
 
     void loadPosts() {
         showProgressBar(true);
-//        dataRepository.login(username, password);
-        dataRepository.getMessages()
-                .subscribe(updateViewObserver);
+//        dataRepository.login("username", "password")
+//        .subscribe(loggedIn -> {
+//            Timber.d("Logged in: " + loggedIn.toString());
+//        });
+//        dataRepository.getMessages()
+//                .subscribe(updateViewObserver);
 
 //        dataRepository.getPosts()
 //                .compose(applySchedulers())

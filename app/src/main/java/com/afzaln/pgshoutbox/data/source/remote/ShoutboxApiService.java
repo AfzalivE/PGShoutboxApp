@@ -3,6 +3,7 @@ package com.afzaln.pgshoutbox.data.source.remote;
 import com.afzaln.pgshoutbox.data.models.ShoutboxData;
 
 import okhttp3.ResponseBody;
+import retrofit2.Response;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -14,7 +15,7 @@ import rx.Observable;
  * https://square.github.io/retrofit/
  */
 
-interface RemoteApiService {
+interface ShoutboxApiService {
     String USERNAME_FIELD = "vb_login_username";
     String PASSWORD_FIELD = "vb_login_password";
     String DO_FIELD = "do";
@@ -37,7 +38,7 @@ interface RemoteApiService {
 
     @FormUrlEncoded
     @POST("/forums/login.php?do=login")
-    Observable<ResponseBody> postLogin(
+    Observable<Response<ResponseBody>> postLogin(
             @Field(USERNAME_FIELD) String username,
             @Field(PASSWORD_FIELD) String password,
             @Field(DO_FIELD) String doValue,

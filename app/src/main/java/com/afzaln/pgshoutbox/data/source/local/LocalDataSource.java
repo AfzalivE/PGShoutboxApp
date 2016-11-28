@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import com.afzaln.pgshoutbox.data.models.ShoutboxData;
 import com.afzaln.pgshoutbox.data.source.DataSource;
 
-import okhttp3.ResponseBody;
 import rx.Observable;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -31,19 +30,18 @@ public class LocalDataSource implements DataSource {
      * @return
      */
     @Override
-    public Observable<ResponseBody> login(String username, String password) {
-        return null;
+    public Observable<Boolean> login(String username, String password) {
+        throw new UnsupportedOperationException("Local login not supported");
     }
 
     @Override
     public Observable<ShoutboxData> postMessage(String message) {
-
-        return null;
+        throw new UnsupportedOperationException("Local post message not supported");
     }
 
     @Override
     public Observable<ShoutboxData> getMessages() {
-        return null;
+        throw new UnsupportedOperationException("Local get messages not supported");
     }
 
 //    /**

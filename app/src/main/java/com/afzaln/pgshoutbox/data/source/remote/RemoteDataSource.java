@@ -4,8 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.afzaln.pgshoutbox.data.models.ShoutboxData;
-import com.afzaln.pgshoutbox.data.source.DataSource;
-import com.afzaln.pgshoutbox.util.UtfBomSerialized;
 import com.afzaln.pgshoutbox.util.Utils.HashUtils;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
@@ -16,8 +14,11 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Converter;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -28,19 +29,23 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Created by afzal on 2016-11-19.
  */
-public class RemoteDataSource implements DataSource {
+public class RemoteDataSource {
     private static String DO_VALUE = "login";
     private static String COOKIEUSER_VALUE = "1";
 
     private static RemoteDataSource INSTANCE = null;
     private static final String API_URL = "http://www.pakgamers.com"; // TODO API URL goes here
-    private final RemoteApiService remoteApiService;
+    private final ShoutboxApiService shoutboxApiService;
+    private final ForumsApiService forumsApiService;
 
 
     private RemoteDataSource(@NonNull Context context) {
         checkNotNull(context);
-        Retrofit retrofit = buildRetrofit(context, API_URL);
-        remoteApiService = retrofit.create(RemoteApiService.class);
+        Retrofit xmlRetrofit = buildRetrofit(context, API_URL, SimpleXmlConverterFactory.create());
+        shoutboxApiService = xmlRetrofit.create(ShoutboxApiService.class);
+
+        Retrofit jsonRetrofit = buildRetrofit(context, API_URL, GsonConverterFactory.create());
+        forumsApiService = xmlRetrofit.create(ForumsApiService.class);
     }
 
     // Public methods
@@ -52,24 +57,29 @@ public class RemoteDataSource implements DataSource {
      * @param password User's password
      * @return RxObservable with the result
      */
-    @Override
-    public Observable<ResponseBody> login(String username, String password) {
+    public Observable<Response<ResponseBody>> login(String username, String password) {
         // TODO return a boolean indication successful login or failure
         String passwordHash = HashUtils.md5(password);
-        return remoteApiService
+        return shoutboxApiService
                 .postLogin(username, password, DO_VALUE, COOKIEUSER_VALUE, passwordHash, passwordHash)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
     }
 
-    @Override
-    public Observable<ShoutboxData> postMessage(String message) {
-        // TODO security token ???
-        return remoteApiService.postMessage(message, "ajax", "shouts", "1", "save", "securityTokenValue")
+    public Observable<ShoutboxData> postMessage(String message, String securityToken) {
+        return shoutboxApiService.postMessage(message, "ajax", "shouts", "1", "save", securityToken)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
+    }
+
+    /**
+     * @deprecated Call postMessage(message, securityToken) instead
+     */
+    @Deprecated
+    public Observable<ShoutboxData> postMessage(String message) {
+        throw new UnsupportedOperationException("Call postMessage(message, securityToken) instead");
     }
 
     /**
@@ -77,9 +87,8 @@ public class RemoteDataSource implements DataSource {
      *
      * @return RxObservable with the shouts
      */
-    @Override
     public Observable<ShoutboxData> getMessages() {
-        return remoteApiService.getMessages()
+        return shoutboxApiService.getMessages()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
@@ -87,7 +96,7 @@ public class RemoteDataSource implements DataSource {
 
     // Creation methods
 
-    private Retrofit buildRetrofit(Context context, String baseUrl) {
+    private Retrofit buildRetrofit(Context context, String baseUrl, Converter.Factory converterFactory) {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -105,7 +114,7 @@ public class RemoteDataSource implements DataSource {
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .addConverterFactory(SimpleXmlConverterFactory.create(new UtfBomSerialized()))
+                .addConverterFactory(converterFactory)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(client)
                 .baseUrl(baseUrl)

@@ -51,6 +51,7 @@ ext {
     retrofitVersion = '2.1.0'
     persistentCookieJarVersion = 'v1.0.0'
     retrofitSimpleXmlVersion = '2.1.0'
+    retrofitGsonVersion = '2.1.0'
     retrofitRxCallAdapterVersion = '2.1.0'
     retrofitLoggingVersion = '3.4.2'
     powermockVersion = '1.6.6'

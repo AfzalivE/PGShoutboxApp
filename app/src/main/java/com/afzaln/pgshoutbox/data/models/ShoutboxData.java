@@ -12,4 +12,5 @@ public class ShoutboxData {
     public List<AopTime> aoptimes;
     public ActiveUsers activeusers;
     public String pmtime;
+    public String error;
 }

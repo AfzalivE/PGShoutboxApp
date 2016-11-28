@@ -101,6 +101,7 @@ dependencies {
     compile "com.github.franmontiel:PersistentCookieJar:$rootProject.persistentCookieJarVersion"
     apt "com.jakewharton:butterknife-compiler:$rootProject.butterknifeVersion"
     compile "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
+    compile "com.squareup.retrofit2:converter-gson:$rootProject.retrofitGsonVersion"
     compile("com.squareup.retrofit2:converter-simplexml:$rootProject.retrofitSimpleXmlVersion") {
         exclude module: 'stax-api'
         exclude module: 'stax'

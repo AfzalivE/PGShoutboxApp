@@ -42,8 +42,10 @@ public class PostListFragment extends BaseFragment<PostListPresenter, PostListCo
 
         // Initialize adapters etc here ...
         postAdapter = new PostAdapter(itemClickListener);
-
-        postListV.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setStackFromEnd(true);
+        layoutManager.setReverseLayout(true);
+        postListV.setLayoutManager(layoutManager);
         postListV.setAdapter(postAdapter);
     }
 
@@ -52,6 +54,7 @@ public class PostListFragment extends BaseFragment<PostListPresenter, PostListCo
     @Override
     public void addButtonClicked() {
         Toast.makeText(getContext(), "Add menu button clicked", Toast.LENGTH_SHORT).show();
+        presenter.postMessage("Test 3");
     }
 
     @Override
