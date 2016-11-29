@@ -1,4 +1,4 @@
-package com.afzaln.pgshoutbox.postlist;
+package com.afzaln.pgshoutbox.messagelist;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,23 +18,23 @@ import butterknife.ButterKnife;
 /**
  * A custom adapter to use with RecyclerView.
  */
-class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostVH> {
+class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MessageVH> {
     private List<Shout> messages;
-    private final PostClickListener itemClickListener;
+    private final MessageClickListener itemClickListener;
 
-    PostAdapter(PostClickListener itemClickListener) {
+    MessagesAdapter(MessageClickListener itemClickListener) {
         messages = new ArrayList<>();
         this.itemClickListener = itemClickListener;
     }
 
     @Override
-    public PostVH onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_list_item, parent, false);
-        return new PostVH(view, itemClickListener);
+    public MessageVH onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_list_item, parent, false);
+        return new MessageVH(view, itemClickListener);
     }
 
     @Override
-    public void onBindViewHolder(PostVH holder, int position) {
+    public void onBindViewHolder(MessageVH holder, int position) {
         holder.bind(messages.get(position));
     }
 
@@ -48,8 +48,8 @@ class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostVH> {
         notifyDataSetChanged();
     }
 
-    static class PostVH extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private final PostClickListener itemClickListener;
+    static class MessageVH extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private final MessageClickListener itemClickListener;
         private Shout shout;
 
         @BindView(R.id.title)
@@ -58,7 +58,7 @@ class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostVH> {
         @BindView(R.id.subtitle)
         TextView subtitleV;
 
-        PostVH(View itemView, PostClickListener itemClickListener) {
+        MessageVH(View itemView, MessageClickListener itemClickListener) {
             super(itemView);
             this.itemClickListener = itemClickListener;
             itemView.setOnClickListener(this);

@@ -1,4 +1,4 @@
-package com.afzaln.pgshoutbox.postlist;
+package com.afzaln.pgshoutbox.messagelist;
 
 import android.content.Context;
 
@@ -8,10 +8,10 @@ import com.afzaln.pgshoutbox.util.PresenterFactory;
 /**
  * Created by afzal on 2016-11-19.
  */
-class PostListPresenterFactory extends PresenterFactory<PostListPresenter> {
+class MessageListPresenterFactory extends PresenterFactory<MessageListPresenter> {
     @Override
-    public PostListPresenter create(Context context) {
-        return new PostListPresenter(
+    public MessageListPresenter create(Context context) {
+        return new MessageListPresenter(
                 Injection.provideDataRepository(context)
         );
     }

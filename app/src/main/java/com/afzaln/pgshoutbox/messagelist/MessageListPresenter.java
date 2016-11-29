@@ -1,37 +1,32 @@
-package com.afzaln.pgshoutbox.postlist;
+package com.afzaln.pgshoutbox.messagelist;
 
 import android.support.annotation.NonNull;
 
 import com.afzaln.pgshoutbox.data.models.ShoutboxData;
 import com.afzaln.pgshoutbox.data.source.DataRepository;
-import com.afzaln.pgshoutbox.postlist.PostListContract.View;
+import com.afzaln.pgshoutbox.messagelist.MessageListContract.View;
 import com.afzaln.pgshoutbox.util.BasePresenter;
 
 import rx.Observer;
 
+import static com.afzaln.pgshoutbox.util.RxUtils.applySchedulers;
+
 /**
  * Created by afzal on 2016-11-19.
  */
-class PostListPresenter implements BasePresenter<View> {
+class MessageListPresenter implements BasePresenter<View> {
     private final DataRepository dataRepository;
     private View view;
 
-    PostListPresenter(@NonNull DataRepository dataRepository) {
+    MessageListPresenter(@NonNull DataRepository dataRepository) {
         this.dataRepository = dataRepository;
     }
 
-    void loadPosts() {
+    void loadMessages() {
         showProgressBar(true);
-//        dataRepository.login("username", "password")
-//        .subscribe(loggedIn -> {
-//            Timber.d("Logged in: " + loggedIn.toString());
-//        });
-//        dataRepository.getMessages()
-//                .subscribe(updateViewObserver);
-
-//        dataRepository.getPosts()
-//                .compose(applySchedulers())
-//                .subscribe(updateViewObserver);
+        dataRepository.getMessages()
+                .compose(applySchedulers())
+                .subscribe(updateViewObserver);
     }
 
     void postMessage(String message) {

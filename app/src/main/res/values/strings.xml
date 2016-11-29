@@ -15,5 +15,7 @@
   -->
 
 <resources>
-    <string name="app_name">My Posts App</string>
+    <string name="app_name">PG Shoutbox</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
 </resources>

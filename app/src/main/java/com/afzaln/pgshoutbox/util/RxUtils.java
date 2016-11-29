@@ -15,7 +15,8 @@ public class RxUtils {
     public static <T> Transformer<T, T> applySchedulers() {
         return observable -> observable
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io());
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.afzaln.pgshoutbox.postlist;
+package com.afzaln.pgshoutbox.messagelist;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,11 +16,11 @@ import butterknife.ButterKnife;
  * Created by afzal on 2016-11-19.
  */
 
-public class PostListActivity extends BaseActivity {
+public class MessageListActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    private PostListFragment fragment;
+    private MessageListFragment fragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,13 +32,15 @@ public class PostListActivity extends BaseActivity {
         // do things with preferences
         PreferenceProvider preferenceProvider = Injection.providePreferenceProvider(this);
 
-        fragment = (PostListFragment) getSupportFragmentManager().findFragmentById(R.id.content_frame);
+        // TODO check if logged in, if not, finish this activity and show LoginActivity
+
+        fragment = (MessageListFragment) getSupportFragmentManager().findFragmentById(R.id.content_frame);
         showFragment();
     }
 
     private void showFragment() {
         if (fragment == null) {
-            fragment = PostListFragment.newInstance();
+            fragment = MessageListFragment.newInstance();
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.content_frame, fragment)
                     .commit();

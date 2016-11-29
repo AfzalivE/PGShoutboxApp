@@ -7,10 +7,10 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/post_list"
+        android:id="@+id/message_list"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/post_list_item" />
+        tools:listitem="@layout/message_list_item" />
 
 </LinearLayout>

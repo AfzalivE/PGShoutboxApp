@@ -1,4 +1,4 @@
-package com.afzaln.pgshoutbox.postlist;
+package com.afzaln.pgshoutbox.messagelist;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,14 +18,14 @@ import butterknife.BindView;
 /**
  * Created by afzal on 2016-11-19.
  */
-public class PostListFragment extends BaseFragment<PostListPresenter, PostListContract.View> implements PostListContract.View {
-    private PostListPresenter presenter;
+public class MessageListFragment extends BaseFragment<MessageListPresenter, MessageListContract.View> implements MessageListContract.View {
+    private MessageListPresenter presenter;
 
-    @BindView(R.id.post_list)
-    RecyclerView postListV;
+    @BindView(R.id.message_list)
+    RecyclerView messageListV;
 
-    private PostClickListener itemClickListener = postId -> Toast.makeText(getContext(), "Post " + postId + " clicked", Toast.LENGTH_SHORT).show();
-    private PostAdapter postAdapter;
+    private MessageClickListener itemClickListener = shoutId -> Toast.makeText(getContext(), "Shout " + shoutId + " clicked", Toast.LENGTH_SHORT).show();
+    private MessagesAdapter shoutsAdapter;
 
     // Initializer methods
 
@@ -41,12 +41,12 @@ public class PostListFragment extends BaseFragment<PostListPresenter, PostListCo
         super.onViewCreated(view, savedInstanceState);
 
         // Initialize adapters etc here ...
-        postAdapter = new PostAdapter(itemClickListener);
+        shoutsAdapter = new MessagesAdapter(itemClickListener);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setStackFromEnd(true);
         layoutManager.setReverseLayout(true);
-        postListV.setLayoutManager(layoutManager);
-        postListV.setAdapter(postAdapter);
+        messageListV.setLayoutManager(layoutManager);
+        messageListV.setAdapter(shoutsAdapter);
     }
 
     // View Contract methods
@@ -64,7 +64,7 @@ public class PostListFragment extends BaseFragment<PostListPresenter, PostListCo
 
     @Override
     public void showMessages(ShoutboxData shoutboxData) {
-        postAdapter.setMessages(shoutboxData.shouts);
+        shoutsAdapter.setMessages(shoutboxData.shouts);
     }
 
     @Override
@@ -77,23 +77,23 @@ public class PostListFragment extends BaseFragment<PostListPresenter, PostListCo
     // Overridden base methods
 
     @Override
-    protected PresenterFactory<PostListPresenter> getPresenterFactory() {
-        return new PostListPresenterFactory();
+    protected PresenterFactory<MessageListPresenter> getPresenterFactory() {
+        return new MessageListPresenterFactory();
     }
 
     @Override
-    protected void onPresenterPrepared(PostListPresenter presenter) {
+    protected void onPresenterPrepared(MessageListPresenter presenter) {
         this.presenter = presenter;
         // load initial data from presenter here ...
-        presenter.loadPosts();
+        presenter.loadMessages();
     }
 
     // static creation method with layout
 
-    public static PostListFragment newInstance() {
-        PostListFragment fragment = new PostListFragment();
+    public static MessageListFragment newInstance() {
+        MessageListFragment fragment = new MessageListFragment();
         // This layout is inflated in BaseFragment
-        fragment.setLayout(R.layout.postlist_fragment);
+        fragment.setLayout(R.layout.messagelist_fragment);
 
         return fragment;
     }

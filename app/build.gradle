@@ -94,6 +94,8 @@ dependencies {
     compile "com.android.support.test.espresso:espresso-idling-resource:$rootProject.espressoVersion"
     compile "com.google.guava:guava:$rootProject.guavaVersion"
 
+    compile "com.cesarferreira.colorize:colorize:$rootProject.colorizeVersion"
+
     compile "io.reactivex:rxjava:$rootProject.rxJavaVersion"
     compile "io.reactivex:rxandroid:$rootProject.rxAndroidVersion"
 

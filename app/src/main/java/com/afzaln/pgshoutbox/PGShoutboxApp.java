@@ -8,7 +8,7 @@ import timber.log.Timber.DebugTree;
 /**
  * Created by afzal on 2016-06-05.
  */
-public class PostApp extends Application {
+public class PGShoutboxApp extends Application {
 
     @Override
     public void onCreate() {

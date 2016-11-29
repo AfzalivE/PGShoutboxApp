@@ -21,8 +21,6 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -61,17 +59,11 @@ public class RemoteDataSource {
         // TODO return a boolean indication successful login or failure
         String passwordHash = HashUtils.md5(password);
         return shoutboxApiService
-                .postLogin(username, password, DO_VALUE, COOKIEUSER_VALUE, passwordHash, passwordHash)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .unsubscribeOn(Schedulers.io());
+                .postLogin(username, password, DO_VALUE, COOKIEUSER_VALUE, passwordHash, passwordHash);
     }
 
     public Observable<ShoutboxData> postMessage(String message, String securityToken) {
-        return shoutboxApiService.postMessage(message, "ajax", "shouts", "1", "save", securityToken)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .unsubscribeOn(Schedulers.io());
+        return shoutboxApiService.postMessage(message, "ajax", "shouts", "1", "save", securityToken);
     }
 
     /**
@@ -88,10 +80,7 @@ public class RemoteDataSource {
      * @return RxObservable with the shouts
      */
     public Observable<ShoutboxData> getMessages() {
-        return shoutboxApiService.getMessages()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .unsubscribeOn(Schedulers.io());
+        return shoutboxApiService.getMessages();
     }
 
     // Creation methods
