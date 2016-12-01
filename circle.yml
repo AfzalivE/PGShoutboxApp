@@ -17,7 +17,7 @@ dependencies:
         - "/usr/local/android-sdk-linux"
     pre:
         - scp -r ${HOME}/${CIRCLE_PROJECT_REPONAME}/android-sdk/licenses $ANDROID_HOME
-        - scp -r ${HOME}/${CIRCLE_PROJECT_REPONAME}/android-sdk/m2repository $ANDROID_HOME/extras
+        # - scp -r ${HOME}/${CIRCLE_PROJECT_REPONAME}/android-sdk/m2repository $ANDROID_HOME/extras
     override:
         - echo "Check for Android SDK"
         - source scripts/ci-setup.sh && getAndroidSDK
